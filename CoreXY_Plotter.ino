@@ -12,7 +12,7 @@ int vrx_data = 0;
 int vry_data = 0;
 static int pos_cur_x = 0; 
 static int pos_cur_y = 0;
-int time_delay = 1000; //2000 > Very Slow, 1000 > Slow, 500 > Fast
+int time_delay = 1000; //2000 > Slow, 1000 > Normal, 500 > Fast
 long move_delay = 1000;
 
 void setup() {
