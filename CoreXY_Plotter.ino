@@ -1,5 +1,3 @@
-#include <Stepper.h> 
-
 const int stepPin_b = 2; //X.STEP
 const int dirPin_b = 5; // X.DIR
 const int stepPin_c = 3; //X.STEP
@@ -8,8 +6,6 @@ const int stepPin_z = 4; //X.STEP
 const int dirPin_z = 7; // X.DIR
 const int stepPin_a = 12; //X.STEP
 const int dirPin_a = 13; // X.DIR
-//const byte enablePin = 8;
-const int SW = 9;
 int vrx = A1; 
 int vry = A0; 
 int vrx_data = 0; 
@@ -19,7 +15,6 @@ static int pos_cur_y = 0;
 int time_delay = 1000; //2000 > Very Slow, 1000 > Slow, 500 > Fast
 long move_delay = 1000;
 
- 
 void setup() {
  // Sets the two pins as Outputs
    pinMode(stepPin_b,OUTPUT); 
@@ -30,44 +25,15 @@ void setup() {
    pinMode(dirPin_z,OUTPUT);
    pinMode(stepPin_a,OUTPUT); 
    pinMode(dirPin_a,OUTPUT);
-   //digitalWrite(enablePin, LOW);
    pinMode(vrx , INPUT); 
    pinMode(vry, INPUT);  
-   Serial.begin(9600);
-   //draw_square(20);
-   //draw_octagon(20);
-   draw_star(200, 5);
+   //Serial.begin(9600);
    //draw_polygon(100, 8);
+   //draw_star(100, 5);
 }
  
 void loop() {
    joystick();
-}
-
-void move_z(int steps){
-  if(steps < 0){
-    digitalWrite(dirPin_z,LOW);
-    digitalWrite(dirPin_a,LOW);
-  }
-  if(steps > 0){
-    digitalWrite(dirPin_z,HIGH);
-    digitalWrite(dirPin_a,HIGH);
-  }
-  
-  for(int i = 0; i < abs(steps); i++){
-    digitalWrite(stepPin_z,HIGH); 
-    digitalWrite(stepPin_a,HIGH); 
-    
-    delayMicroseconds(time_delay); 
-    
-    digitalWrite(stepPin_z,LOW);
-    digitalWrite(stepPin_a,LOW); 
-    
-    delayMicroseconds(time_delay); 
-  }
-  
-  digitalWrite(dirPin_z,LOW);
-  digitalWrite(dirPin_a,LOW);
 }
 
 void move_xy(int pos_des_x, int pos_des_y){
@@ -146,8 +112,8 @@ void joystick(){
   if (vry_data < 100){
     pos_des_y -= 1;
   }
+ 
   move_xy(pos_des_x, pos_des_y);
-  //delay(time_delay/100);
 }
 
 void draw_polygon(float scale, int sides){
@@ -163,7 +129,7 @@ void draw_polygon(float scale, int sides){
 }
 
 void draw_star(float scale, int points){
-  int angle = 0; //270+(90/points);
+  int angle = 270+(90/points);
   move_xy(0, -scale);
   delay(move_delay);
   for(int i = 0; i < points; i++){
@@ -175,7 +141,6 @@ void draw_star(float scale, int points){
     Serial.println(scale*sin(angle*(PI/180)));
     move_xy(scale*sin(angle*(PI/180)), -scale*cos(angle*(PI/180)));
     angle += 2*(360/points);
-    //angle -= ((int)(angle/360))*360;
     delay(move_delay);
   }
   move_xy(0, scale);
